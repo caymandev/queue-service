@@ -15,7 +15,7 @@ import { createQueue, setupQueueProcessor } from './queue';
 
 const connection = {
   host: env.REDISHOST,
-  port: env.REDISPORT ? parseInt(env.REDISPORT) : 6379,
+  port: env.REDISPORT,
   username: env.REDISUSER,
   password: env.REDISPASSWORD,
 };
