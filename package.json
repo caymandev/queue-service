@@ -41,9 +41,10 @@
   "dependencies": {
     "@bull-board/api": "^4.2.2",
     "@bull-board/express": "^4.2.1",
-    "body-parser": "^1.20.0",
     "@bull-board/ui": "^4.2.2",
+    "body-parser": "^1.20.0",
     "bullmq": "^1.90.2",
+    "dotenv": "^16.0.3",
     "envsafe": "^2.0.3",
     "express": "^4.17.3"
   }

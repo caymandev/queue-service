@@ -1,8 +1,9 @@
 const { createBullBoard } = require('@bull-board/api');
 const { BullMQAdapter } = require('@bull-board/api/bullMQAdapter');
 const { ExpressAdapter } = require('@bull-board/express');
-const { Queue: QueueMQ, Worker, QueueScheduler } = require('bullmq');
+const { Queue: QueueMQ, Worker: WorkerMQ, QueueScheduler } = require('bullmq');
 const express = require('express');
+import { env } from './env';
 
 const sleep = (t) => new Promise((resolve) => setTimeout(resolve, t * 1000));
 
@@ -22,7 +23,7 @@ async function setupBullMQProcessor(queueName) {
   });
   await queueScheduler.waitUntilReady();
 
-  new Worker(queueName, async (job) => {
+  new WorkerMQ(queueName, async (job) => {
     for (let i = 0; i <= 100; i++) {
       await sleep(Math.random());
       await job.updateProgress(i);
