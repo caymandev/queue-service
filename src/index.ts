@@ -82,19 +82,19 @@ const run = async () => {
     });
   });
 
-  app.listen(3000, () => {
-    console.log('Running on 3000...');
-    console.log(
-      'For the UI of instance1, open http://localhost:3000/instance1'
-    );
-    console.log(
-      'For the UI of instance2, open http://localhost:3000/instance2'
-    );
-    console.log('Make sure Redis is running on port 6379 by default');
-    console.log('To populate the queue, run:');
-    console.log('  curl http://localhost:3000/add?title=Example');
-    console.log('To populate the queue with custom options (opts), run:');
-    console.log('  curl http://localhost:3000/add?title=Test&opts[delay]=9');
+  app.listen(process.env.PORT, '0.0.0.0', () => {
+    // console.log('Running on 3000...');
+    // console.log(
+    //   'For the UI of instance1, open http://localhost:3000/instance1'
+    // );
+    // console.log(
+    //   'For the UI of instance2, open http://localhost:3000/instance2'
+    // );
+    // console.log('Make sure Redis is running on port 6379 by default');
+    // console.log('To populate the queue, run:');
+    // console.log('  curl http://localhost:3000/add?title=Example');
+    // console.log('To populate the queue with custom options (opts), run:');
+    // console.log('  curl http://localhost:3000/add?title=Test&opts[delay]=9');
   });
 };
 
