@@ -13,15 +13,15 @@ interface AddJobQueryString {
 }
 
 const run = async () => {
-  const welcomeEmailQueue = createQueue('WelcomeEmailQueue');
-  await setupQueueProcessor(welcomeEmailQueue.name);
+  const priceQueue = createQueue('PriceQueue');
+  await setupQueueProcessor(priceQueue.name);
 
   const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
     fastify();
 
   const serverAdapter = new FastifyAdapter();
   createBullBoard({
-    queues: [new BullMQAdapter(welcomeEmailQueue)],
+    queues: [new BullMQAdapter(priceQueue)],
     serverAdapter,
   });
   serverAdapter.setBasePath('/');
