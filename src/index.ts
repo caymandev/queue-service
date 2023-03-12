@@ -37,11 +37,9 @@ async function setupBullMQProcessor(queueName) {
 }
 
 const run = async () => {
-  const priceBullMq = createQueueMQ('priceQueue');
-  const exampleBullMq2 = createQueueMQ('BullMQ - instance2');
+  const priceBullMq = createQueueMQ('PriceQueue');
 
   await setupBullMQProcessor(priceBullMq.name);
-  await setupBullMQProcessor(exampleBullMq2.name);
 
   const app = express();
   // Configure view engine to render EJS templates.
@@ -49,23 +47,15 @@ const run = async () => {
   app.set('view engine', 'ejs');
 
   const serverAdapter1 = new ExpressAdapter();
-  const serverAdapter2 = new ExpressAdapter();
 
   createBullBoard({
     queues: [new BullMQAdapter(priceBullMq)],
     serverAdapter: serverAdapter1,
   });
 
-  createBullBoard({
-    queues: [new BullMQAdapter(exampleBullMq2)],
-    serverAdapter: serverAdapter2,
-  });
-
   serverAdapter1.setBasePath('/instance1');
-  serverAdapter2.setBasePath('/instance2');
 
   app.use('/instance1', serverAdapter1.getRouter());
-  app.use('/instance2', serverAdapter2.getRouter());
 
   app.use('/add', (req, res) => {
     const opts = req.query.opts || {};
@@ -75,7 +65,6 @@ const run = async () => {
     }
 
     priceBullMq.add('Add instance 1', { title: req.query.title }, opts);
-    exampleBullMq2.add('Add instance 2', { title: req.query.title }, opts);
 
     res.json({
       ok: true,
