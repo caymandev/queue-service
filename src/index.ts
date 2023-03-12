@@ -1,17 +1,17 @@
+require('dotenv').config();
 const { createBullBoard } = require('@bull-board/api');
 const { BullMQAdapter } = require('@bull-board/api/bullMQAdapter');
 const { ExpressAdapter } = require('@bull-board/express');
 const { Queue: QueueMQ, Worker: WorkerMQ, QueueScheduler } = require('bullmq');
 const express = require('express');
-import { env } from './env';
 
 const sleep = (t) => new Promise((resolve) => setTimeout(resolve, t * 1000));
 
 const redisOptions = {
-  host: env.REDISHOST,
-  port: env.REDISPORT,
-  username: env.REDISUSER,
-  password: env.REDISPASSWORD,
+  host: process.env.REDISHOST,
+  port: process.env.REDISPORT,
+  username: process.env.REDISUSER,
+  password: process.env.REDISPASSWORD,
   tls: false,
 };
 
@@ -37,10 +37,10 @@ async function setupBullMQProcessor(queueName) {
 }
 
 const run = async () => {
-  const exampleBullMq = createQueueMQ('BullMQ - instance1');
+  const priceBullMq = createQueueMQ('priceQueue');
   const exampleBullMq2 = createQueueMQ('BullMQ - instance2');
 
-  await setupBullMQProcessor(exampleBullMq.name);
+  await setupBullMQProcessor(priceBullMq.name);
   await setupBullMQProcessor(exampleBullMq2.name);
 
   const app = express();
@@ -52,7 +52,7 @@ const run = async () => {
   const serverAdapter2 = new ExpressAdapter();
 
   createBullBoard({
-    queues: [new BullMQAdapter(exampleBullMq)],
+    queues: [new BullMQAdapter(priceBullMq)],
     serverAdapter: serverAdapter1,
   });
 
@@ -74,7 +74,7 @@ const run = async () => {
       opts.delay = +opts.delay * 1000; // delay must be a number
     }
 
-    exampleBullMq.add('Add instance 1', { title: req.query.title }, opts);
+    priceBullMq.add('Add instance 1', { title: req.query.title }, opts);
     exampleBullMq2.add('Add instance 2', { title: req.query.title }, opts);
 
     res.json({
