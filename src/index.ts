@@ -50,8 +50,8 @@ const run = async () => {
     });
   });
 
-  // app.listen(process.env.PORT, '0.0.0.0', () => {
-  //   // console.log('Running on 3000...');
+  app.listen(process.env.PORT, '0.0.0.0', () => {
+    console.log('Running on 3000...');
   //   // console.log(
   //   //   'For the UI of instance1, open http://localhost:3000/instance1'
   //   // );
@@ -64,7 +64,7 @@ const run = async () => {
   //   // console.log('To populate the queue with custom options (opts), run:');
   //   // console.log('  curl http://localhost:3000/add?title=Test&opts[delay]=9');
   // });
-};
+// };
 
 // eslint-disable-next-line no-console
 run().catch((e) => console.error(e));
